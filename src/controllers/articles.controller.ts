@@ -1,12 +1,13 @@
+import { IArticleService } from "@/interfaces";
+import articlesService from "@/services/articles.service";
 import { Request, Response, NextFunction } from "express";
 
-class HelloController {
+class ArticlesController {
+  constructor(private articleService: IArticleService) {}
+
   async index(req: Request, res: Response, next: NextFunction) {
-    res.success({ message: "Hello From Blog API.", data: null });
-  }
-  async error(req: Request, res: Response, next: NextFunction) {
-    res.error({ message: "Unknown error occured.", errors: ["No Error"] });
+    res.success({ message: "This route lists all articles", data: null });
   }
 }
 
-export default new HelloController();
+export default new ArticlesController(articlesService);
