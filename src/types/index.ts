@@ -9,7 +9,7 @@ export type UserType = {
 export type ArticleType = {
   id: number;
   title: string;
-  userId: number;
+  authorId: number;
   content: string;
   createdAt: Date;
   updatedAt: Date;

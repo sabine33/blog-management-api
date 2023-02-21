@@ -12,6 +12,23 @@ export interface IAuthService {
 
 export interface IArticleService {
   listAllArticles(): Promise<ArticleType[]>;
-  listById({ articleId }: { articleId: number }): Promise<ArticleType>;
-  listByAuthor({ authorId }: { authorId: number }): Promise<ArticleType>;
+  getById({ articleId }: { articleId: number }): Promise<ArticleType>;
+  getByAuthor({ authorId }: { authorId: number }): Promise<ArticleType[]>;
+  updateById({
+    id,
+    article,
+  }: {
+    id: number;
+    article: ArticleType;
+  }): Promise<ArticleType[]>;
+  deleteById(id: number): Promise<ArticleType>;
+  add(article: ArticleType): Promise<ArticleType[]>;
+}
+export interface IRepository {
+  getAll(): Promise<ArticleType[]>;
+  getById(id: number): Promise<ArticleType>;
+  add(article: ArticleType): Promise<ArticleType[]>;
+  updateById(id: number, article: ArticleType): Promise<ArticleType[]>;
+  deleteById(id: number): Promise<ArticleType>;
+  getByAuthor(authorId: number): Promise<ArticleType[]>;
 }
