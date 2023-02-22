@@ -43,6 +43,7 @@
     "reflect-metadata": "^0.1.13",
     "swagger-ui-express": "^4.6.1",
     "typedi": "^0.10.0",
-    "winston": "^3.8.2"
+    "winston": "^3.8.2",
+    "zod": "^3.20.6"
   }
 }

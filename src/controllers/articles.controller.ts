@@ -9,55 +9,84 @@ class ArticlesController {
   }
 
   index = async (req: Request, res: Response) => {
-    let allArticles = await this.articlesService.listAllArticles();
+    try {
+      let allArticles = await this.articlesService.listAllArticles();
 
-    res.success({
-      message: "List of articles loaded successfully.",
-      data: allArticles,
-    });
+      res.success({
+        message: "List of articles loaded successfully.",
+        data: allArticles,
+      });
+    } catch (ex) {
+      throw new Error(ex);
+    }
   };
 
   getById = async (req: Request, res: Response) => {
-    let { id } = req.params;
-    let article = await this.articlesService.getById({ articleId: id });
-    res.success({
-      message: "Particular article loaded successfully.",
-      data: article,
-    });
+    try {
+      let { id } = req.params;
+      let article = await this.articlesService.getById({ articleId: id });
+
+      res.success({
+        message: "Particular article loaded successfully.",
+        data: article,
+      });
+    } catch (ex) {
+      throw new Error(ex);
+    }
   };
   getByAuthor = async (req: Request, res: Response) => {
-    let { id } = req.params;
-    let article = await this.articlesService.getByAuthor({ authorId: id });
-    res.success({
-      message: "Articles loaded successfully.",
-      data: article,
-    });
+    try {
+      let { id } = req.params;
+      let articles = await this.articlesService.getByAuthor({ authorId: id });
+      res.success({
+        message: "Articles loaded successfully.",
+        data: articles,
+      });
+    } catch (ex) {
+      throw new Error(ex);
+    }
   };
   updateArticle = async (req: Request, res: Response) => {
     let { id } = req.params;
-    let { article } = req.body;
-    let updatedArticle = await this.articlesService.updateById({ id, article });
-    res.success({
-      message: "Articles updated successfully.",
-      data: updatedArticle,
-    });
+    let article = req.body;
+    try {
+      let updatedArticle = await this.articlesService.updateById({
+        id,
+        article,
+      });
+      res.success({
+        message: "Articles updated successfully.",
+        data: updatedArticle,
+      });
+    } catch (ex) {
+      throw new Error(ex);
+    }
   };
   deleteArticle = async (req: Request, res: Response) => {
     let { id } = req.params;
-    let article = await this.articlesService.deleteById(id);
-    res.success({
-      message: "Articles deleted successfully.",
-      data: article,
-    });
+    try {
+      let article = await this.articlesService.deleteById(id);
+
+      res.success({
+        message: "Articles deleted successfully.",
+        data: article,
+      });
+    } catch (ex) {
+      throw new Error(ex);
+    }
   };
 
   createArticle = async (req: Request, res: Response, next: NextFunction) => {
     let article = req.body;
-    let articles = await this.articlesService.add(article);
-    res.success({
-      message: "Articles listed successfully.",
-      data: articles,
-    });
+    try {
+      let articles = await this.articlesService.add(article);
+      res.success({
+        message: "Articles created successfully.",
+        data: articles,
+      });
+    } catch (ex) {
+      throw new Error(ex);
+    }
   };
 }
 

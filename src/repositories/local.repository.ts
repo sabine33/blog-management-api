@@ -20,15 +20,6 @@ let articlesList: ArticleType[] = [
     updatedAt: new Date(),
     authorId: 2,
   },
-  {
-    id: 2,
-    title: "Hello World 3",
-    content: "Hello World details 3.",
-    createdAt: new Date(),
-    deletedAt: null,
-    updatedAt: new Date(),
-    authorId: 2,
-  },
 ];
 
 /**
@@ -41,25 +32,34 @@ class LocalRepository implements IRepository {
    * @returns
    */
   add(article: ArticleType): Promise<ArticleType[]> {
-    articlesList = [...articlesList, article];
+    article.id = articlesList.length + 1;
+    article.createdAt = new Date();
+    article.updatedAt = new Date();
+    article.authorId = 1;
 
+    articlesList = [...articlesList, article];
     return new Promise((resolve, reject) => {
       resolve(articlesList);
     });
   }
   updateById(id: number, article: ArticleType): Promise<ArticleType[]> {
-    let index = articlesList.findIndex((article) => article.id === id);
-    articlesList[index] = article;
     return new Promise((resolve, reject) => {
-      resolve(articlesList);
+      let index = articlesList.findIndex((article) => article.id === +id);
+
+      if (index >= 0) {
+        article.updatedAt = new Date();
+        articlesList[index] = article;
+        resolve(articlesList);
+      } else reject("No article found for update.");
     });
   }
 
   deleteById(id: any): Promise<ArticleType> {
     let index = articlesList.findIndex((article) => article.id === id);
+
     articlesList = articlesList.splice(index, 1);
     return new Promise((resolve, reject) => {
-      if (!articlesList) {
+      if (!index || index < 0) {
         reject("No articles found.");
       }
       resolve(articlesList[index]);
@@ -67,10 +67,11 @@ class LocalRepository implements IRepository {
   }
   getByKey(key: string, value: any): Promise<ArticleType[]> {
     let articles: ArticleType[] = articlesList.filter(
-      (article: ArticleType) => article[`${key}`] === value
+      (article: ArticleType) => article[key] == value
     );
     return new Promise((resolve, reject) => {
-      if (!articles) return reject("No articles found with given key.");
+      if (!articles || articles.length < 1)
+        return reject("No articles found with given key.");
       return resolve(articles);
     });
   }
