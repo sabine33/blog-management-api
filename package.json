@@ -40,6 +40,7 @@
     "express-async-errors": "^3.1.1",
     "express-serve-static-core": "^0.1.1",
     "jsonwebtoken": "^9.0.0",
+    "query-string": "^8.1.0",
     "reflect-metadata": "^0.1.13",
     "swagger-ui-express": "^4.6.1",
     "typedi": "^0.10.0",
