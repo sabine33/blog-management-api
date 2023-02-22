@@ -29,7 +29,7 @@ class ArticlesController {
     let { id } = req.params;
     let article = await this.articlesService.getByAuthor({ authorId: id });
     res.success({
-      message: "Particular article loaded successfully.",
+      message: "Articles loaded successfully.",
       data: article,
     });
   };
@@ -38,7 +38,7 @@ class ArticlesController {
     let { article } = req.body;
     let updatedArticle = await this.articlesService.updateById({ id, article });
     res.success({
-      message: "Particular article updated successfully.",
+      message: "Articles updated successfully.",
       data: updatedArticle,
     });
   };

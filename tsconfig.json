@@ -21,7 +21,7 @@
     "esModuleInterop": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["src/*"]
     },
     "plugins": [
       {
@@ -29,6 +29,6 @@
       }
     ]
   },
-  "include": ["./src/**/*"],
+  "include": ["./src/**/*", "tests"],
   "exclude": ["node_modules/src/tests", "node_modules"]
 }

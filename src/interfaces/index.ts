@@ -30,5 +30,5 @@ export interface IRepository {
   add(article: ArticleType): Promise<ArticleType[]>;
   updateById(id: number, article: ArticleType): Promise<ArticleType[]>;
   deleteById(id: number): Promise<ArticleType>;
-  getByAuthor(authorId: number): Promise<ArticleType[]>;
+  getByKey(key: string, value: any): Promise<ArticleType[]>;
 }

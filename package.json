@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest --coverage",
+    "test": "jest",
     "dev": "nodemon",
     "start": "node -r tsconfig-paths/register build/src/app.js",
     "debug": "npx ts-node-dev --respawn --transpile-only -r tsconfig-paths/register --debug app.ts",

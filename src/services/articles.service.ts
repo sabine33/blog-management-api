@@ -7,9 +7,11 @@ class ArticleService implements IArticleService {
   constructor(repository: IRepository) {
     this.repository = repository;
   }
+
   listAllArticles = (): Promise<ArticleType[]> => {
     return this.repository.getAll();
   };
+
   getById = ({ articleId }: { articleId: number }): Promise<ArticleType> => {
     return this.repository.getById(articleId);
   };
@@ -18,7 +20,7 @@ class ArticleService implements IArticleService {
   }: {
     authorId: number;
   }): Promise<ArticleType[]> => {
-    return this.repository.getByAuthor(authorId);
+    return this.repository.getByKey("authorId", authorId);
   };
 
   updateById = ({

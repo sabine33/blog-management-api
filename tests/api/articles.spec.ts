@@ -1,5 +1,5 @@
 import request from "supertest";
-import config from "../../config";
+import config from "../../src/config";
 
 describe("GET /articles", () => {
   it("Returns list of articles if article is present.", async () => {

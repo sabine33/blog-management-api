@@ -31,48 +31,53 @@ let articlesList: ArticleType[] = [
   },
 ];
 
+/**
+ * Local repository
+ */
 class LocalRepository implements IRepository {
+  /**
+   * Adds new article
+   * @param article
+   * @returns
+   */
   add(article: ArticleType): Promise<ArticleType[]> {
     articlesList = [...articlesList, article];
+
     return new Promise((resolve, reject) => {
       resolve(articlesList);
     });
   }
   updateById(id: number, article: ArticleType): Promise<ArticleType[]> {
-    let articlesWithoutCurrent = articlesList.filter(
-      (article) => article.id !== id
-    );
-    articlesList = [...articlesWithoutCurrent, article];
+    let index = articlesList.findIndex((article) => article.id === id);
+    articlesList[index] = article;
     return new Promise((resolve, reject) => {
       resolve(articlesList);
     });
   }
 
   deleteById(id: any): Promise<ArticleType> {
-    articlesList = articlesList.filter((article) => article.id !== id);
+    let index = articlesList.findIndex((article) => article.id === id);
+    articlesList = articlesList.splice(index, 1);
     return new Promise((resolve, reject) => {
       if (!articlesList) {
         reject("No articles found.");
       }
-      resolve(null);
+      resolve(articlesList[index]);
     });
   }
-  getByAuthor(authorId: number): Promise<ArticleType[]> {
+  getByKey(key: string, value: any): Promise<ArticleType[]> {
     let articles: ArticleType[] = articlesList.filter(
-      (article: ArticleType) => article.authorId === +authorId
+      (article: ArticleType) => article[`${key}`] === value
     );
     return new Promise((resolve, reject) => {
-      if (!articles) return reject("No article found with given author ID.");
+      if (!articles) return reject("No articles found with given key.");
       return resolve(articles);
     });
   }
   getAll = async (): Promise<ArticleType[]> => {
     return new Promise((resolve, reject) => {
-      if (articlesList.length > 0) {
-        resolve(articlesList);
-      } else {
-        reject("Articles list is empty.");
-      }
+      if (articlesList.length < 1) reject("Articles list is empty");
+      resolve(articlesList);
     });
   };
 
