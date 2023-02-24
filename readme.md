@@ -40,6 +40,8 @@ docker run -p 4000:4000 -d blogapi
 - CRUD articles
 - Swagger docs
 
+##
+
 ## Folder structure
 
 | Folder      | Purpose                                           |

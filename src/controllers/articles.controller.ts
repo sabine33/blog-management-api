@@ -64,6 +64,7 @@ class ArticlesController {
   };
   deleteArticle = async (req: Request, res: Response) => {
     let { id } = req.params;
+    console.log(id);
     try {
       let article = await this.articlesService.deleteById(id);
 
@@ -85,6 +86,7 @@ class ArticlesController {
         data: articles,
       });
     } catch (ex) {
+      console.log(ex);
       throw new Error(ex);
     }
   };

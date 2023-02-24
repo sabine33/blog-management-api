@@ -1,27 +1,8 @@
+import { articles as articlesList } from "@/constants/articles";
 import { IRepository } from "@/interfaces";
 import { ArticleType } from "@/types";
 
-let articlesList: ArticleType[] = [
-  {
-    id: 1,
-    title: "Hello World",
-    content: "Hello World details.",
-    createdAt: new Date(),
-    deletedAt: null,
-    updatedAt: new Date(),
-    authorId: 1,
-  },
-  {
-    id: 2,
-    title: "Hello World 2",
-    content: "Hello World details 2.",
-    createdAt: new Date(),
-    deletedAt: null,
-    updatedAt: new Date(),
-    authorId: 2,
-  },
-];
-
+let articles = Object.assign(articlesList);
 /**
  * Local repository
  */
@@ -32,60 +13,63 @@ class LocalRepository implements IRepository {
    * @returns
    */
   add(article: ArticleType): Promise<ArticleType[]> {
-    article.id = articlesList.length + 1;
+    article.id = articles.length + 1;
     article.createdAt = new Date();
     article.updatedAt = new Date();
-    article.authorId = 1;
+    article.userId = 1;
 
-    articlesList = [...articlesList, article];
+    articles = [...articles, article];
     return new Promise((resolve, reject) => {
-      resolve(articlesList);
+      resolve(articles);
     });
   }
   updateById(id: number, article: ArticleType): Promise<ArticleType[]> {
     return new Promise((resolve, reject) => {
-      let index = articlesList.findIndex((article) => article.id === +id);
+      let index = articles.findIndex((article) => article.id === +id);
+      console.log(index);
 
       if (index >= 0) {
         article.updatedAt = new Date();
-        articlesList[index] = article;
-        resolve(articlesList);
+        articles[index] = { ...articles[index], ...article };
+        console.log(article.title);
+        return resolve(articles);
       } else reject("No article found for update.");
     });
   }
 
-  deleteById(id: any): Promise<ArticleType> {
-    let index = articlesList.findIndex((article) => article.id === id);
-
-    articlesList = articlesList.splice(index, 1);
+  deleteById(id: number): Promise<ArticleType> {
     return new Promise((resolve, reject) => {
+      let index = articles.findIndex(
+        (article: ArticleType) => article.id == id
+      );
+      console.log(index);
+
+      articles.splice(index, 1);
       if (!index || index < 0) {
         reject("No articles found.");
       }
-      resolve(articlesList[index]);
+      resolve(articles);
     });
   }
   getByKey(key: string, value: any): Promise<ArticleType[]> {
-    let articles: ArticleType[] = articlesList.filter(
+    let articlesList: ArticleType[] = articles.filter(
       (article: ArticleType) => article[key] == value
     );
     return new Promise((resolve, reject) => {
-      if (!articles || articles.length < 1)
+      if (!articlesList || articlesList.length < 1)
         return reject("No articles found with given key.");
-      return resolve(articles);
+      return resolve(articlesList);
     });
   }
   getAll = async (): Promise<ArticleType[]> => {
     return new Promise((resolve, reject) => {
-      if (articlesList.length < 1) reject("Articles list is empty");
-      resolve(articlesList);
+      if (articles.length < 1) reject("Articles list is empty");
+      resolve(articles);
     });
   };
 
   getById = (id: number): Promise<ArticleType> => {
-    let article = articlesList.find(
-      (article: ArticleType) => article.id === +id
-    );
+    let article = articles.find((article: ArticleType) => article.id === +id);
     return new Promise((resolve, reject) => {
       if (!article) return reject("No article found with given ID");
       return resolve(article);

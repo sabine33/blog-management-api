@@ -23,7 +23,7 @@ export const errorHandler = (app) => {
   });
   //joi error handling
   app.use((err, req: Request, res: Response, next: NextFunction) => {
-    if (err && err.error && err.error.isJoi) {
+    if (err && err.error) {
       console.log(err.error);
       res.error({
         errors: [err.error.toString()],
