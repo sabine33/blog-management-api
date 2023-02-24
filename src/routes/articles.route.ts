@@ -31,7 +31,7 @@ export default () => {
     validate(articleIdSchema),
     articlesController.deleteArticle
   );
-  router.post("/", validate(articleSchema), articlesController.createArticle);
+  router.post("/", articlesController.createArticle);
 
   return router;
 };

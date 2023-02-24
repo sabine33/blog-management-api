@@ -8,12 +8,16 @@ export type UserType = {
 
 export type ArticleType = {
   id: number;
+  userId: number;
   title: string;
-  authorId: number;
   content: string;
+  thumbnailUrl: string;
   createdAt: Date;
-  updatedAt: Date;
-  deletedAt: Date;
+  updatedAt?: Date | null;
+  deletedAt?: Date | null;
+  status: boolean;
+  isFeatured?: boolean;
+  category?: string;
 };
 
 export type LoginDTO = {

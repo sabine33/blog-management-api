@@ -11,7 +11,6 @@ class AuthController {
     const githubRedirectionURL = createGithubLoginQueryString();
     res.redirect(githubRedirectionURL);
   };
-
   getUserProfile = async (req: Request, res: Response, next: NextFunction) => {
     let { code } = req.query;
     //store it to redis cache and if not found in cache fetch again

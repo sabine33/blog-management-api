@@ -10,7 +10,7 @@ export const articleSchema = z.object({
   body: z.object({
     title: titleSchema,
     content: contentSchema,
-    authorId: numericKeySchema("Author ID must be a number"),
+    userId: numericKeySchema("User ID must be a string or number"),
   }),
 });
 
@@ -23,6 +23,6 @@ export const articleUpdateSchema = z.object({
 
 export const articleIdSchema = z.object({
   params: z.object({
-    id: numericKeySchema("Article ID must be a number."),
+    id: z.string("Article ID must be a number or a string."),
   }),
 });
