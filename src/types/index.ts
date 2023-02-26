@@ -12,9 +12,9 @@ export type ArticleType = {
   title: string;
   content: string;
   thumbnailUrl: string;
-  createdAt: Date;
-  updatedAt?: Date | null;
-  deletedAt?: Date | null;
+  createdAt: number;
+  updatedAt?: number | null;
+  deletedAt?: number | null;
   status: boolean;
   isFeatured?: boolean;
   category?: string;
@@ -33,4 +33,9 @@ export type SignupDTO = {
 export type DynamoDBParams = {
   TableName: string;
   Item: any;
+};
+
+export type GetAllResponse = {
+  items: ArticleType[];
+  lastEvaluatedKey?: { id: number };
 };

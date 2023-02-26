@@ -21,7 +21,7 @@ export const errorHandler = (app) => {
     }
     return next(err);
   });
-  //joi error handling
+  //zod error handling
   app.use((err, req: Request, res: Response, next: NextFunction) => {
     if (err && err.error) {
       console.log(err.error);

@@ -1,4 +1,5 @@
 import authController from "@/controllers/auth.controller";
+import { isAuthenticated } from "@/middlewares/auth.middleware";
 
 import { Request, Response, Router } from "express";
 

@@ -3,8 +3,8 @@ import articlesService from "@/services/articles.service";
 import { Request, Response, NextFunction } from "express";
 
 class ArticlesController {
-  private articlesService: IArticleService;
-  constructor(articlesService: IArticleService) {
+  private articlesService;
+  constructor(articlesService) {
     this.articlesService = articlesService;
   }
 
@@ -24,8 +24,11 @@ class ArticlesController {
   getById = async (req: Request, res: Response) => {
     try {
       let { id } = req.params;
-      let article = await this.articlesService.getById({ articleId: id });
+      let article = await this.articlesService.getById({ id });
 
+      if (!article) {
+        throw new Error("Article with given ID not found.");
+      }
       res.success({
         message: "Particular article loaded successfully.",
         data: article,
@@ -37,7 +40,22 @@ class ArticlesController {
   getByAuthor = async (req: Request, res: Response) => {
     try {
       let { id } = req.params;
-      let articles = await this.articlesService.getByAuthor({ authorId: id });
+      let articles = await this.articlesService.getByAuthor({ userId: id });
+      res.success({
+        message: "Articles loaded successfully.",
+        data: articles,
+      });
+    } catch (ex) {
+      throw new Error(ex);
+    }
+  };
+  getByCategory = async (req: Request, res: Response) => {
+    try {
+      let { category } = req.params;
+      console.log(category);
+      let articles = await this.articlesService.getByCategory({
+        category: category.toLowerCase(),
+      });
       res.success({
         message: "Articles loaded successfully.",
         data: articles,
@@ -80,6 +98,11 @@ class ArticlesController {
   createArticle = async (req: Request, res: Response, next: NextFunction) => {
     let article = req.body;
     try {
+      //github user ID
+      console.log({ user: req.session.user, article });
+      if (req.session.user) {
+        article.userId = req.session.user.id;
+      }
       let articles = await this.articlesService.add(article);
       res.success({
         message: "Articles created successfully.",

@@ -1,4 +1,4 @@
-import { ArticleType, UserType } from "@/types";
+import { ArticleType, GetAllResponse, UserType } from "@/types";
 
 export interface IUserService {
   getById(int): Promise<UserType>;
@@ -13,7 +13,7 @@ export interface IAuthService {
 export interface IArticleService {
   listAllArticles(): Promise<ArticleType[]>;
   getById({ articleId }: { articleId: number }): Promise<ArticleType>;
-  getByAuthor({ authorId }: { authorId: number }): Promise<ArticleType[]>;
+  getByAuthor({ userId }: { userId: number }): Promise<ArticleType[]>;
   updateById({
     id,
     article,
@@ -27,8 +27,23 @@ export interface IArticleService {
 export interface IRepository {
   getAll(): Promise<ArticleType[]>;
   getById(id: number): Promise<ArticleType>;
-  add(article: ArticleType): Promise<ArticleType[]>;
-  updateById(id: number, article: ArticleType): Promise<ArticleType[]>;
-  deleteById(id: number): Promise<ArticleType>;
-  getByKey(key: string, value: any): Promise<ArticleType[]>;
+  add(article: ArticleType): Promise<ArticleType>;
+  updateById(
+    id: string,
+    article: Pick<
+      ArticleType,
+      | "title"
+      | "content"
+      | "thumbnailUrl"
+      | "updatedAt"
+      | "status"
+      | "isFeatured"
+      | "category"
+    >
+  ): Promise<ArticleType>;
+  deleteById(id: number): Promise<void>;
+  getByKey(key: keyof ArticleType, value: any): Promise<ArticleType[]>;
+}
+export interface IArticleRepository extends IRepository {
+  getAllByCategory(category: string): Promise<ArticleType[]>;
 }

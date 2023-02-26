@@ -1,5 +1,6 @@
 import articlesController from "@/controllers/articles.controller";
 import helloController from "@/controllers/hello.controller";
+import { isAuthenticated } from "@/middlewares/auth.middleware";
 import { validate } from "@/middlewares/validation.middleware";
 import {
   articleSchema,
@@ -21,6 +22,7 @@ export default () => {
     validate(articleIdSchema),
     articlesController.getByAuthor
   );
+  router.get("/category/:category", articlesController.getByCategory);
   router.put(
     "/:id",
     validate(articleIdSchema),

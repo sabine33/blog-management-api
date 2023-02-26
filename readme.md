@@ -38,6 +38,7 @@ docker run -p 4000:4000 -d blogapi
 - Add other loaders
 - Add article service
 - CRUD articles
+- Redis cache
 - Swagger docs
 
 ##
@@ -65,3 +66,14 @@ docker run -p 4000:4000 -d blogapi
 - Add new service
 - Add new repository (if needed)
 - Add docs to the swagger
+
+## DB
+
+Table Name: BlogArticles
+Partition Key: id (String)
+Sort Key: createdAt (Number)
+
+We will also create the following indexes:
+
+GSI1 Partition Key: userId (String), Sort Key: createdAt (Number)
+GSI2 Partition Key: category (String), Sort Key: createdAt (Number)

@@ -13,17 +13,29 @@ class AuthController {
   };
   getUserProfile = async (req: Request, res: Response, next: NextFunction) => {
     let { code } = req.query;
-    //store it to redis cache and if not found in cache fetch again
-    let accessToken = await getAccessTokenFromCode(code);
-    if (accessToken) {
-      let userProfile = await getGithubUserProfile(accessToken);
-      req.session.user = userProfile;
-      req.session.code = code;
-      req.session.save();
-      res.success({
+
+    if (req.session.user) {
+      return res.success({
         status: true,
         message: "Github user info fetched successfully.",
-        data: userProfile,
+        data: req.session.user,
+      });
+    }
+    //store it to redis cache and if not found in cache fetch again
+    let accessToken = await getAccessTokenFromCode(code);
+    console.log(accessToken);
+
+    if (accessToken) {
+      let user = await getGithubUserProfile(accessToken);
+      console.log(user.id);
+
+      req.session.user = { ...user };
+
+      console.log({ accessToken });
+      return res.success({
+        status: true,
+        message: "Github user info zfetched successfully.",
+        data: user,
       });
     } else {
       throw new Error("Unable to return profile.");
@@ -36,12 +48,6 @@ class AuthController {
     next: NextFunction
   ) => {
     let { code } = req.query;
-    let accessToken = await getAccessTokenFromCode(code);
-    let userProfile = await getGithubUserProfile(accessToken);
-    //set into session
-    req.session.user = userProfile;
-    req.session.userId = uuid4();
-    req.session.save();
 
     res.success({
       message: "Github login success.",

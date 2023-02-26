@@ -13,6 +13,7 @@ export default ({ app }: { app: express.Application }) => {
   app.get("/healthcheck", (req, res) => {
     res.status(200).json({ status: true });
   });
+
   app.use(
     sessions({
       secret: "thisismysecrctekeyfhrgfgrfrty84fwir767",
@@ -27,7 +28,15 @@ export default ({ app }: { app: express.Application }) => {
   app.use(cors());
   app.use(express.json());
   app.use(config.api.prefix, routes());
-
+  app.use(function (req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Credentials", true);
+    res.header(
+      "Access-Control-Allow-Headers",
+      "Origin, X-Requested-With, Content-Type, Accept"
+    );
+    next();
+  });
   app.use(
     bodyParser.json({
       type: "application/*.json",

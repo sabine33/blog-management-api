@@ -1,4 +1,3 @@
-import PatientService from "@/services/patient.service";
 import { Request, Response, NextFunction } from "express";
 
 class UploadController {
