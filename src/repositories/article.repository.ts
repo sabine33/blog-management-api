@@ -25,11 +25,15 @@ const TABLE_NAME = "BlogArticles";
 
 class ArticleRepository implements IArticleRepository {
   async getAll(): Promise<ArticleType[]> {
-    const params = {
-      TableName: TABLE_NAME,
-    };
-    const { Items } = await dynamoClient.send(new ScanCommand(params));
-    return dynamoItemsToJson<ArticleType>(Items);
+    try {
+      const params = {
+        TableName: TABLE_NAME,
+      };
+      const { Items } = await dynamoClient.send(new ScanCommand(params));
+      return dynamoItemsToJson<ArticleType>(Items);
+    } catch (ex) {
+      throw new Error("Unable to fetch articles.");
+    }
   }
   async getById(id: string): Promise<ArticleType> {
     const command = new GetItemCommand({

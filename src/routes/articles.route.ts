@@ -11,29 +11,31 @@ import { Request, Response, Router } from "express";
 const router = Router();
 export default () => {
   router.get("/", articlesController.index);
-  router.get(
-    "/:id",
-    validate(articleIdSchema),
-
-    articlesController.getById
-  );
+  router.get("/:id", validate(articleIdSchema), articlesController.getById);
   router.get(
     "/author/:id",
     validate(articleIdSchema),
+    isAuthenticated,
     articlesController.getByAuthor
   );
-  router.get("/category/:category", articlesController.getByCategory);
+  router.get(
+    "/category/:category",
+    isAuthenticated,
+    articlesController.getByCategory
+  );
   router.put(
     "/:id",
     validate(articleIdSchema),
+    isAuthenticated,
     articlesController.updateArticle
   );
   router.delete(
     "/:id",
     validate(articleIdSchema),
+    isAuthenticated,
     articlesController.deleteArticle
   );
-  router.post("/", articlesController.createArticle);
+  router.post("/", isAuthenticated, articlesController.createArticle);
 
   return router;
 };

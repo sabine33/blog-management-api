@@ -3,8 +3,10 @@ import {
   createGithubLoginQueryString,
   getGithubUserProfile,
   getAccessTokenFromCode,
+  generateJWTToken,
 } from "@/helpers";
 import uuid4 from "uuid4";
+const jwt = require("jsonwebtoken");
 
 class AuthController {
   loginWithGithub = async (req: Request, res: Response, next: NextFunction) => {
@@ -12,34 +14,8 @@ class AuthController {
     res.redirect(githubRedirectionURL);
   };
   getUserProfile = async (req: Request, res: Response, next: NextFunction) => {
-    let { code } = req.query;
-
-    if (req.session.user) {
-      return res.success({
-        status: true,
-        message: "Github user info fetched successfully.",
-        data: req.session.user,
-      });
-    }
-    //store it to redis cache and if not found in cache fetch again
-    let accessToken = await getAccessTokenFromCode(code);
-    console.log(accessToken);
-
-    if (accessToken) {
-      let user = await getGithubUserProfile(accessToken);
-      console.log(user.id);
-
-      req.session.user = { ...user };
-
-      console.log({ accessToken });
-      return res.success({
-        status: true,
-        message: "Github user info zfetched successfully.",
-        data: user,
-      });
-    } else {
-      throw new Error("Unable to return profile.");
-    }
+    const user = req.user;
+    return res.success({ data: user });
   };
 
   onGithubLoginSuccess = async (
@@ -48,20 +24,16 @@ class AuthController {
     next: NextFunction
   ) => {
     let { code } = req.query;
+    let accessToken = await getAccessTokenFromCode(code);
+    const jwtToken = generateJWTToken(accessToken);
+    const userProfile = await getGithubUserProfile(accessToken);
 
     res.success({
       message: "Github login success.",
       data: {
-        code,
+        token: jwtToken,
+        user: userProfile,
       },
-    });
-  };
-  logout = async (req: Request, res: Response, next: NextFunction) => {
-    req.session.destroy("user");
-    res.success({
-      message: "Logout successful.",
-      status: true,
-      data: null,
     });
   };
 }

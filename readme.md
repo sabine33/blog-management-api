@@ -73,7 +73,33 @@ Table Name: BlogArticles
 Partition Key: id (String)
 Sort Key: createdAt (Number)
 
-We will also create the following indexes:
-
 GSI1 Partition Key: userId (String), Sort Key: createdAt (Number)
 GSI2 Partition Key: category (String), Sort Key: createdAt (Number)
+
+## Assignment
+
+#### Create a Restful API for CRUD application using expressJs framework and ReactJS with hooks that has following features.
+
+- Logged in users can create, delete and update their article.
+
+* Public user can read the article.
+
+It should show the following implementation:
+
+- Run in multi thread of CPU.
+- Dockerize the api such that it can be run in services like fargate or kubernetes
+- API should have unit tests
+- Caching and cache invalidation using Redis.
+- Implement Github oAuth.
+- Use local dynamodb.
+- Use ES6 and async await.
+- Share postman collection
+- Should handle errors like network error, etc
+- Implement gsi or lsi while listing all articles
+- Create frontend using React with own design
+- Use redux-toolkit and redux-saga
+- Write unit tests for utils
+
+- Notes:
+  - Should share code in github with proper commits history.
+  - Should have a readme.md file with instruction to run in other computer.

@@ -14,7 +14,6 @@ class ArticlesController {
     try {
       let allArticles = await this.articlesService.listAllArticles();
 
-      console.log(req.url);
       await storeToCache(req.originalUrl || req.url, allArticles);
 
       res.success({
@@ -47,6 +46,8 @@ class ArticlesController {
   getByAuthor = async (req: Request, res: Response) => {
     try {
       let { id } = req.params;
+      console.log("Cookies: ", req.cookies);
+
       let articles = await this.articlesService.getByAuthor({ userId: id });
       await storeToCache(req.originalUrl || req.url, articles);
       res.success({
@@ -61,6 +62,7 @@ class ArticlesController {
     try {
       let { category } = req.params;
       console.log(category);
+      console.log(req.user);
       let articles = await this.articlesService.getByCategory({
         category: category.toLowerCase(),
       });
@@ -94,7 +96,6 @@ class ArticlesController {
   };
   deleteArticle = async (req: Request, res: Response) => {
     let { id } = req.params;
-    console.log(id);
     try {
       let article = await this.articlesService.deleteById(id);
 
@@ -111,8 +112,8 @@ class ArticlesController {
     let article = req.body;
     try {
       //github user ID
-      if (req.session.user) {
-        article.userId = req.session.user.id;
+      if (req.user) {
+        article.userId = req.user.id;
       }
       let createdArticle = await this.articlesService.add(article);
       res.success({

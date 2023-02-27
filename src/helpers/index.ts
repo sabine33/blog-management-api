@@ -1,5 +1,7 @@
 const queryString = require("node:querystring");
 import axios from "axios";
+const jwt = require("jsonwebtoken");
+
 import cache from "express-redis-cache";
 import { marshall, unmarshall } from "@aws-sdk/util-dynamodb";
 import {
@@ -56,7 +58,7 @@ export const getGithubUserProfile = async (accessToken: string) => {
       Authorization: `token ${accessToken}`,
     },
   });
-  console.log(data); // { id, email, name, login, avatar_url }
+  // console.log(data); // { id, email, name, login, avatar_url }
   return data;
 };
 
@@ -70,4 +72,13 @@ export const dynamoItemsToJson = <T>(
   dynamoItems: Record<string, AttributeValue>[]
 ): T[] => {
   return dynamoItems.map((item) => dynamoItemToJson(item));
+};
+
+export const generateJWTToken = (accessToken: string) => {
+  const payload = { accessToken };
+  const secretKey = process.env.JWT_TOKEN_KEY;
+  const options = { expiresIn: process.env.REFRESH_TOKEN_EXPIRES_IN || "1h" };
+  const token = jwt.sign(payload, secretKey, options);
+  console.log(token);
+  return token;
 };

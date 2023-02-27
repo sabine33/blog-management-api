@@ -22,6 +22,7 @@ export const redisCache = async (
 
 export const storeToCache = async (key: string, data: any) => {
   try {
+    if (!data) return;
     await redisClient.set(key, JSON.stringify(data));
   } catch (ex) {
     console.log(`Error storing item to cache ${key}: ${ex}`);
