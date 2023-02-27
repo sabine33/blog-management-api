@@ -6,6 +6,7 @@ This is an API for a blog CRUD application.
 
 - Clone the repository
 - Update environment variables
+- Load database (Create table & load initial contents.)
 
 ```bash
 nvm use 18
@@ -19,6 +20,12 @@ or via docker,
 docker build -t blogapi .
 docker run -p 4000:4000 -d blogapi
 ```
+
+or
+
+```sh
+docker-compose up
+``
 
 ## Tools Used
 
@@ -38,6 +45,7 @@ docker run -p 4000:4000 -d blogapi
 - Add other loaders
 - Add article service
 - CRUD articles
+- Redis cache
 - Swagger docs
 
 ##
@@ -65,3 +73,41 @@ docker run -p 4000:4000 -d blogapi
 - Add new service
 - Add new repository (if needed)
 - Add docs to the swagger
+
+## DB
+
+Table Name: BlogArticles
+Partition Key: id (String)
+Sort Key: createdAt (Number)
+
+GSI1 Partition Key: userId (String), Sort Key: createdAt (Number)
+GSI2 Partition Key: category (String), Sort Key: createdAt (Number)
+
+## Assignment
+
+#### Create a Restful API for CRUD application using expressJs framework and ReactJS with hooks that has following features.
+
+- Logged in users can create, delete and update their article.
+
+* Public user can read the article.
+
+It should show the following implementation:
+
+- ~~Run in multi thread of CPU.~~
+- ~~Dockerize the api such that it can be run in services like fargate or kubernetes~~
+- API should have unit tests
+- Caching and cache invalidation using Redis.
+- Implement Github oAuth.
+- Use local dynamodb.
+- Use ES6 and async await.
+- Share postman collection
+- Should handle errors like network error, etc
+- Implement gsi or lsi while listing all articles
+- Create frontend using React with own design
+- Use redux-toolkit and redux-saga
+- Write unit tests for utils
+
+- Notes:
+  - Should share code in github with proper commits history.
+  - Should have a readme.md file with instruction to run in other computer.
+```

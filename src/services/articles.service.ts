@@ -1,10 +1,10 @@
-import { IArticleService, IRepository } from "@/interfaces";
-import localRepository from "@/repositories/local.repository";
+import { IArticleService, IArticleRepository } from "@/interfaces";
+import dynamoRepository from "@/repositories/article.repository";
 import { ArticleType } from "@/types";
 
-class ArticleService implements IArticleService {
-  private repository: IRepository;
-  constructor(repository: IRepository) {
+class ArticleService {
+  private repository: IArticleRepository;
+  constructor(repository) {
     this.repository = repository;
   }
 
@@ -12,31 +12,34 @@ class ArticleService implements IArticleService {
     return this.repository.getAll();
   };
 
-  getById = ({ articleId }: { articleId: number }): Promise<ArticleType> => {
-    return this.repository.getById(articleId);
+  getById = ({ id }: { id: string }): Promise<ArticleType> => {
+    return this.repository.getById(id);
   };
-  getByAuthor = ({
-    authorId,
+  getByAuthor = ({ userId }: { userId: number }): Promise<ArticleType[]> => {
+    return this.repository.getByKey("userId", userId);
+  };
+  getByCategory = ({
+    category,
   }: {
-    authorId: number;
+    category: string;
   }): Promise<ArticleType[]> => {
-    return this.repository.getByKey("authorId", authorId);
+    return this.repository.getByCategory(category);
   };
 
   updateById = ({
     id,
     article,
   }: {
-    id: number;
+    id: string;
     article: ArticleType;
-  }): Promise<ArticleType[]> => {
+  }): Promise<ArticleType> => {
     return this.repository.updateById(id, article);
   };
-  deleteById = (id: number): Promise<ArticleType> => {
+  deleteById = (id: string): Promise<void> => {
     return this.repository.deleteById(id);
   };
-  add = (article: ArticleType): Promise<ArticleType[]> => {
+  add = (article: ArticleType): Promise<ArticleType> => {
     return this.repository.add(article);
   };
 }
-export default new ArticleService(localRepository);
+export default new ArticleService(dynamoRepository);

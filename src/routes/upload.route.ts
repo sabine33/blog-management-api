@@ -1,7 +1,8 @@
-import { Router } from "express";
 import multerUpload from "@/helpers/multerUpload";
 import uploadController from "@/controllers/upload.controller";
-const router = Router();
+import express from "express";
+// import { Router } from "express";
+const router = express.Router();
 
 export default () => {
   router.post(

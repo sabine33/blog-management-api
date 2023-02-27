@@ -7,14 +7,14 @@ export type UserType = {
 };
 
 export type ArticleType = {
-  id: number;
+  id: string;
   userId: number;
   title: string;
   content: string;
   thumbnailUrl: string;
-  createdAt: Date;
-  updatedAt?: Date | null;
-  deletedAt?: Date | null;
+  createdAt: number;
+  updatedAt?: number | null;
+  deletedAt?: number | null;
   status: boolean;
   isFeatured?: boolean;
   category?: string;
@@ -33,4 +33,21 @@ export type SignupDTO = {
 export type DynamoDBParams = {
   TableName: string;
   Item: any;
+};
+
+export type GetAllResponse = {
+  items: ArticleType[];
+  lastEvaluatedKey?: { id: number };
+};
+
+export type ResponseType = {
+  message: string;
+  status?: boolean;
+  statusCode?: number;
+};
+export type ErrorType = ResponseType & {
+  errors: any[];
+};
+export type SuccessType = ResponseType & {
+  data: any;
 };

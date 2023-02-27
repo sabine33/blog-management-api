@@ -1,43 +1,56 @@
 import { articles as articlesList } from "@/constants/articles";
-import { IRepository } from "@/interfaces";
-import { ArticleType } from "@/types";
+import { IArticleRepository } from "@/interfaces";
+import { ArticleType, GetAllResponse } from "@/types";
 
 let articles = Object.assign(articlesList);
 /**
  * Local repository
  */
-class LocalRepository implements IRepository {
+class LocalArticleRepository implements IArticleRepository {
   /**
    * Adds new article
    * @param article
    * @returns
    */
-  add(article: ArticleType): Promise<ArticleType[]> {
+  add(article: ArticleType): Promise<ArticleType> {
     article.id = articles.length + 1;
-    article.createdAt = new Date();
-    article.updatedAt = new Date();
+    article.createdAt = Date.now();
+    article.updatedAt = Date.now();
     article.userId = 1;
 
     articles = [...articles, article];
     return new Promise((resolve, reject) => {
-      resolve(articles);
+      resolve(article);
     });
   }
-  updateById(id: number, article: ArticleType): Promise<ArticleType[]> {
+  updateById(id: string, article: ArticleType): Promise<ArticleType> {
     return new Promise((resolve, reject) => {
       let index = articles.findIndex((article) => article.id === +id);
       console.log(index);
 
       if (index >= 0) {
-        article.updatedAt = new Date();
+        article.updatedAt = Date.now();
         articles[index] = { ...articles[index], ...article };
         console.log(article.title);
-        return resolve(articles);
+        return resolve(article);
       } else reject("No article found for update.");
     });
   }
+  getByKey(key: keyof ArticleType, value: any): Promise<ArticleType[]> {
+    let articlesList: ArticleType[] = articles.filter(
+      (article: ArticleType) => article[key] == value
+    );
+    return new Promise((resolve, reject) => {
+      if (!articlesList || articlesList.length < 1)
+        return reject("No articles found with given key.");
+      return resolve(articlesList);
+    });
+  }
+  getByCategory(category: string): Promise<ArticleType[]> {
+    return this.getByKey("category", category);
+  }
 
-  deleteById(id: number): Promise<ArticleType> {
+  deleteById(id: string): Promise<void> {
     return new Promise((resolve, reject) => {
       let index = articles.findIndex(
         (article: ArticleType) => article.id == id
@@ -48,17 +61,7 @@ class LocalRepository implements IRepository {
       if (!index || index < 0) {
         reject("No articles found.");
       }
-      resolve(articles);
-    });
-  }
-  getByKey(key: string, value: any): Promise<ArticleType[]> {
-    let articlesList: ArticleType[] = articles.filter(
-      (article: ArticleType) => article[key] == value
-    );
-    return new Promise((resolve, reject) => {
-      if (!articlesList || articlesList.length < 1)
-        return reject("No articles found with given key.");
-      return resolve(articlesList);
+      resolve(null);
     });
   }
   getAll = async (): Promise<ArticleType[]> => {
@@ -68,12 +71,12 @@ class LocalRepository implements IRepository {
     });
   };
 
-  getById = (id: number): Promise<ArticleType> => {
-    let article = articles.find((article: ArticleType) => article.id === +id);
+  getById = (id: string): Promise<ArticleType> => {
+    let article = articles.find((article: ArticleType) => article.id === id);
     return new Promise((resolve, reject) => {
       if (!article) return reject("No article found with given ID");
       return resolve(article);
     });
   };
 }
-export default new LocalRepository();
+export default new LocalArticleRepository();

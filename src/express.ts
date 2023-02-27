@@ -1,17 +1,4 @@
-import { Response } from "express-serve-static-core";
-import { response } from "express";
-
-type ResponseType = {
-  message: string;
-  status?: boolean;
-  statusCode?: number;
-};
-type ErrorType = ResponseType & {
-  errors: any[];
-};
-type SuccessType = ResponseType & {
-  data: any;
-};
+import { ErrorType, SuccessType } from "./types";
 
 // augment the `express-serve-static-core` module
 declare module "express-serve-static-core" {
@@ -21,21 +8,3 @@ declare module "express-serve-static-core" {
     error(resp: ErrorType): this;
   }
 }
-
-response.success = function ({
-  message = "",
-  status = true,
-  statusCode = 200,
-  data,
-}: SuccessType) {
-  return this.json({ message, status, statusCode, data });
-};
-
-response.error = function ({
-  message = "Error occured",
-  status = false,
-  statusCode = 400,
-  errors = [],
-}: ErrorType) {
-  return this.json({ message, status, statusCode, errors });
-};

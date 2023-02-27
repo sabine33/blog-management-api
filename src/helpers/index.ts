@@ -1,6 +1,21 @@
 const queryString = require("node:querystring");
 import axios from "axios";
+const jwt = require("jsonwebtoken");
 
+import { marshall, unmarshall } from "@aws-sdk/util-dynamodb";
+import {
+  DynamoDBClient,
+  QueryCommand,
+  QueryCommandInput,
+  ScanCommandOutput,
+  AttributeValue,
+  PutItemCommandOutput,
+  PutItemCommandInput,
+  PutItemCommand,
+  GetItemCommandInput,
+  GetItemCommand,
+  GetItemCommandOutput,
+} from "@aws-sdk/client-dynamodb";
 const GITHUB_OAUTH_URL = "https://github.com/login/oauth/authorize";
 const GITHUB_ACCESS_TOKEN_URL = "https://github.com/login/oauth/access_token";
 const GITHUB_USER_FETCH_URL = "https://api.github.com/user";
@@ -42,6 +57,27 @@ export const getGithubUserProfile = async (accessToken: string) => {
       Authorization: `token ${accessToken}`,
     },
   });
-  console.log(data); // { id, email, name, login, avatar_url }
+  // console.log(data); // { id, email, name, login, avatar_url }
   return data;
+};
+
+export const dynamoItemToJson = <T>(
+  dynamoItem: Record<string, AttributeValue>
+): T => {
+  return unmarshall(dynamoItem) as T;
+};
+
+export const dynamoItemsToJson = <T>(
+  dynamoItems: Record<string, AttributeValue>[]
+): T[] => {
+  return dynamoItems.map((item) => dynamoItemToJson(item));
+};
+
+export const generateJWTToken = (accessToken: string) => {
+  const payload = { accessToken };
+  const secretKey = process.env.JWT_TOKEN_KEY;
+  const options = { expiresIn: process.env.REFRESH_TOKEN_EXPIRES_IN || "1h" };
+  const token = jwt.sign(payload, secretKey, options);
+  console.log(token);
+  return token;
 };

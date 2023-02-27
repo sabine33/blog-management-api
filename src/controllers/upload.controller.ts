@@ -1,9 +1,6 @@
-import PatientService from "@/services/patient.service";
-import { Request, Response, NextFunction } from "express";
-
 class UploadController {
   constructor() {}
-  uploadImage = async (req: Request, res: Response, next: NextFunction) => {
+  uploadImage = async (req, res, next) => {
     const fileUrl = req.file;
     res.success({
       status: true,

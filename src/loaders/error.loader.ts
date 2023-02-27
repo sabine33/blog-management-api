@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 export const errorHandler = (app) => {
   /// catch 404 and forward to error handler
-  app.use((req: Request, res: Response, next: NextFunction) => {
+  app.use((req, res, next) => {
     return res.status(404).json({
       status: false,
       statusCode: res.statusCode || 404,
@@ -10,7 +10,7 @@ export const errorHandler = (app) => {
   });
 
   /// error handlers
-  app.use((err, req: Request, res: Response, next: NextFunction) => {
+  app.use((err, req, res, next) => {
     if (err.name === "UnauthorizedError") {
       return res.status(401).json({
         status: false,
@@ -21,8 +21,8 @@ export const errorHandler = (app) => {
     }
     return next(err);
   });
-  //joi error handling
-  app.use((err, req: Request, res: Response, next: NextFunction) => {
+  //zod error handling
+  app.use((err, req, res, next) => {
     if (err && err.error) {
       console.log(err.error);
       res.error({
@@ -37,7 +37,7 @@ export const errorHandler = (app) => {
   });
 
   //generic error handler
-  app.use((err, req: Request, res: Response, next: NextFunction) => {
+  app.use((err, req, res, next) => {
     return res.status(400).json({
       errors: [err?.message],
       statusCode: res.statusCode || 500,

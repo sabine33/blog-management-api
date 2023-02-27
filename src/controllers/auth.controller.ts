@@ -1,61 +1,34 @@
-import { Request, Response, NextFunction } from "express";
 import {
   createGithubLoginQueryString,
   getGithubUserProfile,
   getAccessTokenFromCode,
+  generateJWTToken,
 } from "@/helpers";
 import uuid4 from "uuid4";
+const jwt = require("jsonwebtoken");
 
 class AuthController {
-  loginWithGithub = async (req: Request, res: Response, next: NextFunction) => {
+  loginWithGithub = async (req, res, next) => {
     const githubRedirectionURL = createGithubLoginQueryString();
     res.redirect(githubRedirectionURL);
   };
-  getUserProfile = async (req: Request, res: Response, next: NextFunction) => {
-    let { code } = req.query;
-    //store it to redis cache and if not found in cache fetch again
-    let accessToken = await getAccessTokenFromCode(code);
-    if (accessToken) {
-      let userProfile = await getGithubUserProfile(accessToken);
-      req.session.user = userProfile;
-      req.session.code = code;
-      req.session.save();
-      res.success({
-        status: true,
-        message: "Github user info fetched successfully.",
-        data: userProfile,
-      });
-    } else {
-      throw new Error("Unable to return profile.");
-    }
+  getUserProfile = async (req, res, next) => {
+    const user = req.user;
+    return res.success({ data: user });
   };
 
-  onGithubLoginSuccess = async (
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ) => {
+  onGithubLoginSuccess = async (req, res, next) => {
     let { code } = req.query;
     let accessToken = await getAccessTokenFromCode(code);
-    let userProfile = await getGithubUserProfile(accessToken);
-    //set into session
-    req.session.user = userProfile;
-    req.session.userId = uuid4();
-    req.session.save();
+    const jwtToken = generateJWTToken(accessToken);
+    const userProfile = await getGithubUserProfile(accessToken);
 
     res.success({
       message: "Github login success.",
       data: {
-        code,
+        token: jwtToken,
+        user: userProfile,
       },
-    });
-  };
-  logout = async (req: Request, res: Response, next: NextFunction) => {
-    req.session.destroy("user");
-    res.success({
-      message: "Logout successful.",
-      status: true,
-      data: null,
     });
   };
 }

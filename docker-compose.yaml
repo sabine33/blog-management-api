@@ -1,0 +1,34 @@
+#Docker compose for blog API
+version: '3'
+services:
+  node:
+    build: .
+    ports:
+      - "4000:4000"
+    environment:
+      - NODE_ENV=development
+      - DYNAMODB_ENDPOINT=http://dynamodb:8000
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+    depends_on:
+      - dynamodb
+      # - redis
+    command: sh -c "yarn migrate:create && yarn migrate:load && yarn prod"
+
+  dynamodb:
+    image: amazon/dynamodb-local
+    ports:
+      - "8000:8000"
+    restart: always
+    environment:
+      - AWS_ACCESS_KEY_ID=blogapi
+      - AWS_SECRET_ACCESS_KEY=blogapi
+      - AWS_DEFAULT_REGION=us-east-1
+    volumes:
+      - ~/.aws/credentials:/root/.aws/credentials:ro
+    command: "-jar DynamoDBLocal.jar -sharedDb -dbPath /home/dynamodb/data/"
+
+  # redis:
+  #   image: redis:latest
+  #   ports:
+  #     - "6379:6379"
