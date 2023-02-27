@@ -96,18 +96,18 @@ It should show the following implementation:
 - ~~Run in multi thread of CPU.~~
 - ~~Dockerize the api such that it can be run in services like fargate or kubernetes~~
 - API should have unit tests
-- Caching and cache invalidation using Redis.
-- Implement Github oAuth.
-- Use local dynamodb.
-- Use ES6 and async await.
+- ~~Caching and cache invalidation using Redis.~~
+- ~~Implement Github oAuth.~~
+- ~~Use local dynamodb.~~
+- ~~Use ES6 and async await.~~
 - Share postman collection
 - Should handle errors like network error, etc
-- Implement gsi or lsi while listing all articles
+- ~~Implement gsi or lsi while listing all articles~~
 - Create frontend using React with own design
-- Use redux-toolkit and redux-saga
+- ~~Use redux-toolkit and redux-saga~~
 - Write unit tests for utils
 
 - Notes:
-  - Should share code in github with proper commits history.
-  - Should have a readme.md file with instruction to run in other computer.
+  - ~~Should share code in github with proper commits history.~~
+  - ~~Should have a readme.md file with instruction to run in other computer.~~
 ```

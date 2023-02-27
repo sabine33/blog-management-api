@@ -1,3 +1,4 @@
+import { CustomError } from "@/error";
 import { Request, Response, NextFunction } from "express";
 export const errorHandler = (app) => {
   /// catch 404 and forward to error handler
@@ -22,15 +23,9 @@ export const errorHandler = (app) => {
     return next(err);
   });
   //zod error handling
-  app.use((err, req, res, next) => {
-    if (err && err.error) {
-      console.log(err.error);
-      res.error({
-        errors: [err.error.toString()],
-        status: false,
-        statusCode: 400,
-        message: err.error?.message,
-      });
+  app.use((err: CustomError, req, res, next) => {
+    if (err) {
+      res.status(err.statusCode).json({ ...err, message: err.message });
     } else {
       next(err);
     }
@@ -38,10 +33,6 @@ export const errorHandler = (app) => {
 
   //generic error handler
   app.use((err, req, res, next) => {
-    return res.status(400).json({
-      errors: [err?.message],
-      statusCode: res.statusCode || 500,
-      message: err?.message || "Unknown Error",
-    });
+    return res.status(400).json({ ...err });
   });
 };

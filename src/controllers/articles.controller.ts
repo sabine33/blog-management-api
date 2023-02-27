@@ -1,3 +1,4 @@
+import { CustomError } from "@/error";
 import { IArticleService } from "@/interfaces";
 import redisClient from "@/loaders/redis.loader";
 import { invalidateCache, storeToCache } from "@/middlewares/redis.middleware";
@@ -24,22 +25,22 @@ class ArticlesController {
   };
 
   getById = async (req, res) => {
-    try {
-      let { id } = req.params;
-      let article = await this.articlesService.getById({ id });
+    let { id } = req.params;
+    let article = await this.articlesService.getById({ id });
 
-      await storeToCache(req.originalUrl || req.url, article);
+    await storeToCache(req.originalUrl || req.url, article);
 
-      if (!article) {
-        throw new Error("Article with given ID not found.");
-      }
-      res.success({
-        message: "Particular article loaded successfully.",
-        data: article,
+    if (!article) {
+      throw new CustomError({
+        message: "Article with given ID not found.",
+        statusCode: 404,
+        status: false,
       });
-    } catch (ex) {
-      throw new Error(ex);
     }
+    res.success({
+      message: "Particular article loaded successfully.",
+      data: article,
+    });
   };
   getByAuthor = async (req, res) => {
     try {
@@ -82,28 +83,31 @@ class ArticlesController {
         article,
       });
 
-      //invalidate cache on update
+      console.log(updatedArticle);
 
+      //invalidate cache on update
       res.success({
         message: "Articles updated successfully.",
         data: updatedArticle,
       });
     } catch (ex) {
-      throw new Error(ex);
+      throw new CustomError({
+        message: "Unable to update article:" + ex.message,
+        status: false,
+        statusCode: 403,
+      });
     }
   };
   deleteArticle = async (req, res) => {
     let { id } = req.params;
-    try {
-      let article = await this.articlesService.deleteById(id);
 
-      res.success({
-        message: "Articles deleted successfully.",
-        data: article,
-      });
-    } catch (ex) {
-      throw new Error(ex);
-    }
+    let article = await this.articlesService.deleteById(id);
+
+    res.success({
+      message: "Articles deleted successfully.",
+      data: id,
+      statusCode: 200,
+    });
   };
 
   createArticle = async (req, res, next) => {

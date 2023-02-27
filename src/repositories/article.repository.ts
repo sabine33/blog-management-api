@@ -1,4 +1,5 @@
 import { ARTICLES_TABLE_NAME } from "@/constants";
+import { CustomError } from "@/error";
 import { dynamoItemsToJson } from "@/helpers";
 import { IArticleRepository } from "@/interfaces";
 import dynamoClient from "@/loaders/dynamodb.loader";
@@ -115,8 +116,9 @@ class ArticleRepository implements IArticleRepository {
         Key: marshall({ id }),
       });
       await dynamoClient.send(command);
-    } catch (error) {
-      throw new Error(`Error deleting articles by id: ${error}`);
+      return;
+    } catch (ex) {
+      return null;
     }
   }
   async getByKey(
