@@ -13,12 +13,13 @@ const dynamoDBClient = new DynamoDB({
   region: "us-east-1",
   endpoint: "http://127.0.0.1:8000",
 });
-const tableName = "BlogArticles";
+
+const TABLE_NAME = "BlogArticles";
 
 async function createTable(): Promise<void> {
   try {
     const command = new CreateTableCommand({
-      TableName: tableName,
+      TableName: TABLE_NAME,
       AttributeDefinitions: [
         { AttributeName: "id", AttributeType: "S" },
         { AttributeName: "createdAt", AttributeType: "N" },
@@ -61,9 +62,9 @@ async function createTable(): Promise<void> {
       },
     });
     await dynamoDBClient.send(command);
-    console.log(`Table ${tableName} created successfully!`);
+    console.log(`Table ${TABLE_NAME} created successfully!`);
   } catch (error) {
-    console.error(`Error creating table ${tableName}: ${error}`);
+    console.error(`Error creating table ${TABLE_NAME}: ${error}`);
   }
 }
 

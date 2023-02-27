@@ -1,10 +1,10 @@
 import { Request, Response, NextFunction } from "express";
 
 class HelloController {
-  async index(req: Request, res: Response, next: NextFunction) {
+  async index(req, res, next) {
     res.success({ message: "Hello From Blog API.", data: null });
   }
-  async error(req: Request, res: Response, next: NextFunction) {
+  async error(req, res, next) {
     res.error({ message: "Unknown error occured.", errors: ["No Error"] });
   }
 }

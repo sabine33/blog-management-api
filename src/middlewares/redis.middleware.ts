@@ -1,11 +1,7 @@
 import redisClient from "@/loaders/redis.loader";
 import { Request, Response, NextFunction } from "express";
 
-export const redisCache = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+export const redisCache = async (req, res, next) => {
   try {
     const key = req.originalUrl || req.url;
     let redisResponse = await redisClient.get(key);
@@ -23,6 +19,10 @@ export const redisCache = async (
 export const storeToCache = async (key: string, data: any) => {
   try {
     if (!data) return;
+    if (!redisClient) {
+      console.log("Redis client is not ready,Cacheing disabled.");
+      return;
+    }
     await redisClient.set(key, JSON.stringify(data));
   } catch (ex) {
     console.log(`Error storing item to cache ${key}: ${ex}`);

@@ -10,7 +10,7 @@ export const categories = [
 
 export let articles: ArticleType[] = [
   {
-    id: 1,
+    id: "1",
     title: "Article 1",
     content:
       "Non anim veniam occaecat sint elit aute consectetur commodo commodo ipsum esse nulla ad. Est incididunt laborum est tempor Lorem tempor irure culpa laboris duis nisi veniam. Velit et cupidatat aliquip eiusmod adipisicing consequat et pariatur cupidatat velit quis. Aliquip ex adipisicing adipisicing veniam.",
@@ -24,7 +24,7 @@ export let articles: ArticleType[] = [
     category: "world",
   },
   {
-    id: 2,
+    id: "2",
     title: "Article 2",
     content:
       "Non anim veniam occaecat sint elit aute consectetur commodo commodo ipsum esse nulla ad. Est incididunt laborum est tempor Lorem tempor irure culpa laboris duis nisi veniam. Velit et cupidatat aliquip eiusmod adipisicing consequat et pariatur cupidatat velit quis. Aliquip ex adipisicing adipisicing veniam.",
@@ -36,7 +36,7 @@ export let articles: ArticleType[] = [
     status: true,
   },
   {
-    id: 3,
+    id: "3",
     title: "Article 3",
     content:
       "Non anim veniam occaecat sint elit aute consectetur commodo commodo ipsum esse nulla ad. Est incididunt laborum est tempor Lorem tempor irure culpa laboris duis nisi veniam. Velit et cupidatat aliquip eiusmod adipisicing consequat et pariatur cupidatat velit quis. Aliquip ex adipisicing adipisicing veniam.",
@@ -48,7 +48,7 @@ export let articles: ArticleType[] = [
     status: true,
   },
   {
-    id: 4,
+    id: "4",
     title: "Article 4",
     content:
       "Non anim veniam occaecat sint elit aute consectetur commodo commodo ipsum esse nulla ad. Est incididunt laborum est tempor Lorem tempor irure culpa laboris duis nisi veniam. Velit et cupidatat aliquip eiusmod adipisicing consequat et pariatur cupidatat velit quis. Aliquip ex adipisicing adipisicing veniam.",
@@ -60,7 +60,7 @@ export let articles: ArticleType[] = [
     status: true,
   },
   {
-    id: 5,
+    id: "5",
     title: "Article 5",
     content:
       "Non anim veniam occaecat sint elit aute consectetur commodo commodo ipsum esse nulla ad. Est incididunt laborum est tempor Lorem tempor irure culpa laboris duis nisi veniam. Velit et cupidatat aliquip eiusmod adipisicing consequat et pariatur cupidatat velit quis. Aliquip ex adipisicing adipisicing veniam.",
@@ -72,7 +72,7 @@ export let articles: ArticleType[] = [
     status: true,
   },
   {
-    id: 6,
+    id: "6",
     title: "Article 6",
     content:
       "Non anim veniam occaecat sint elit aute consectetur commodo commodo ipsum esse nulla ad. Est incididunt laborum est tempor Lorem tempor irure culpa laboris duis nisi veniam. Velit et cupidatat aliquip eiusmod adipisicing consequat et pariatur cupidatat velit quis. Aliquip ex adipisicing adipisicing veniam.",
@@ -84,7 +84,7 @@ export let articles: ArticleType[] = [
     status: true,
   },
   {
-    id: 7,
+    id: "7",
     title: "Article 7",
     content:
       "Non anim veniam occaecat sint elit aute consectetur commodo commodo ipsum esse nulla ad. Est incididunt laborum est tempor Lorem tempor irure culpa laboris duis nisi veniam. Velit et cupidatat aliquip eiusmod adipisicing consequat et pariatur cupidatat velit quis. Aliquip ex adipisicing adipisicing veniam.",

@@ -12,21 +12,21 @@ export interface IAuthService {
 
 export interface IArticleService {
   listAllArticles(): Promise<ArticleType[]>;
-  getById({ articleId }: { articleId: number }): Promise<ArticleType>;
+  getById({ id }: { id: string }): Promise<ArticleType>;
   getByAuthor({ userId }: { userId: number }): Promise<ArticleType[]>;
   updateById({
     id,
     article,
   }: {
-    id: number;
+    id: string;
     article: ArticleType;
   }): Promise<ArticleType[]>;
-  deleteById(id: number): Promise<ArticleType>;
+  deleteById(id: string): Promise<ArticleType>;
   add(article: ArticleType): Promise<ArticleType[]>;
 }
 export interface IRepository {
   getAll(): Promise<ArticleType[]>;
-  getById(id: number): Promise<ArticleType>;
+  getById(id: string): Promise<ArticleType>;
   add(article: ArticleType): Promise<ArticleType>;
   updateById(
     id: string,
@@ -41,9 +41,9 @@ export interface IRepository {
       | "category"
     >
   ): Promise<ArticleType>;
-  deleteById(id: number): Promise<void>;
+  deleteById(id: string): Promise<void>;
   getByKey(key: keyof ArticleType, value: any): Promise<ArticleType[]>;
 }
 export interface IArticleRepository extends IRepository {
-  getAllByCategory(category: string): Promise<ArticleType[]>;
+  getByCategory(category: string): Promise<ArticleType[]>;
 }

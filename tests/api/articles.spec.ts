@@ -16,7 +16,6 @@ describe("Articles API", () => {
   let articleId;
   test("should create a new blog post", async () => {
     const res = await request(app).post("/articles").send(mockArticle);
-
     expect(res.status).toBe(201);
     expect(res.body).toHaveProperty("id");
     expect(res.body.title).toBe(mockArticle.title);

@@ -1,11 +1,11 @@
 aws dynamodb create-table \
-    --table-name Music \
+    --table-name BlogArticles \
     --attribute-definitions \
-        AttributeName=Artist,AttributeType=S \
-        AttributeName=SongTitle,AttributeType=S \
+        AttributeName=id,AttributeType=S \
+        AttributeName=Title,AttributeType=S \
     --key-schema \
-        AttributeName=Artist,KeyType=HASH \
-        AttributeName=SongTitle,KeyType=RANGE \
+        AttributeName=id,KeyType=HASH \
+        AttributeName=title,KeyType=RANGE \
     --provisioned-throughput \
         ReadCapacityUnits=5,WriteCapacityUnits=5 \
     --table-class STANDARD

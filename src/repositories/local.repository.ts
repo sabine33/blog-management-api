@@ -6,7 +6,7 @@ let articles = Object.assign(articlesList);
 /**
  * Local repository
  */
-class LocalRepository implements IArticleRepository {
+class LocalArticleRepository implements IArticleRepository {
   /**
    * Adds new article
    * @param article
@@ -23,7 +23,7 @@ class LocalRepository implements IArticleRepository {
       resolve(article);
     });
   }
-  updateById(id: number, article: ArticleType): Promise<ArticleType> {
+  updateById(id: string, article: ArticleType): Promise<ArticleType> {
     return new Promise((resolve, reject) => {
       let index = articles.findIndex((article) => article.id === +id);
       console.log(index);
@@ -46,11 +46,11 @@ class LocalRepository implements IArticleRepository {
       return resolve(articlesList);
     });
   }
-  getAllByCategory(category: string): Promise<ArticleType[]> {
+  getByCategory(category: string): Promise<ArticleType[]> {
     return this.getByKey("category", category);
   }
 
-  deleteById(id: number): Promise<void> {
+  deleteById(id: string): Promise<void> {
     return new Promise((resolve, reject) => {
       let index = articles.findIndex(
         (article: ArticleType) => article.id == id
@@ -71,12 +71,12 @@ class LocalRepository implements IArticleRepository {
     });
   };
 
-  getById = (id: number): Promise<ArticleType> => {
-    let article = articles.find((article: ArticleType) => article.id === +id);
+  getById = (id: string): Promise<ArticleType> => {
+    let article = articles.find((article: ArticleType) => article.id === id);
     return new Promise((resolve, reject) => {
       if (!article) return reject("No article found with given ID");
       return resolve(article);
     });
   };
 }
-export default new LocalRepository();
+export default new LocalArticleRepository();

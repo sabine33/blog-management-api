@@ -2,15 +2,13 @@ import { IArticleService } from "@/interfaces";
 import redisClient from "@/loaders/redis.loader";
 import { invalidateCache, storeToCache } from "@/middlewares/redis.middleware";
 import articlesService from "@/services/articles.service";
-import { Request, Response, NextFunction } from "express";
-
 class ArticlesController {
   private articlesService;
   constructor(articlesService) {
     this.articlesService = articlesService;
   }
 
-  index = async (req: Request, res: Response) => {
+  index = async (req, res) => {
     try {
       let allArticles = await this.articlesService.listAllArticles();
 
@@ -25,7 +23,7 @@ class ArticlesController {
     }
   };
 
-  getById = async (req: Request, res: Response) => {
+  getById = async (req, res) => {
     try {
       let { id } = req.params;
       let article = await this.articlesService.getById({ id });
@@ -43,7 +41,7 @@ class ArticlesController {
       throw new Error(ex);
     }
   };
-  getByAuthor = async (req: Request, res: Response) => {
+  getByAuthor = async (req, res) => {
     try {
       let { id } = req.params;
       console.log("Cookies: ", req.cookies);
@@ -58,7 +56,7 @@ class ArticlesController {
       throw new Error(ex);
     }
   };
-  getByCategory = async (req: Request, res: Response) => {
+  getByCategory = async (req, res) => {
     try {
       let { category } = req.params;
       console.log(category);
@@ -75,7 +73,7 @@ class ArticlesController {
       throw new Error(ex);
     }
   };
-  updateArticle = async (req: Request, res: Response) => {
+  updateArticle = async (req, res) => {
     let { id } = req.params;
     let article = req.body;
     try {
@@ -94,7 +92,7 @@ class ArticlesController {
       throw new Error(ex);
     }
   };
-  deleteArticle = async (req: Request, res: Response) => {
+  deleteArticle = async (req, res) => {
     let { id } = req.params;
     try {
       let article = await this.articlesService.deleteById(id);
@@ -108,7 +106,7 @@ class ArticlesController {
     }
   };
 
-  createArticle = async (req: Request, res: Response, next: NextFunction) => {
+  createArticle = async (req, res, next) => {
     let article = req.body;
     try {
       //github user ID

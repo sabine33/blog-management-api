@@ -7,7 +7,7 @@ export type UserType = {
 };
 
 export type ArticleType = {
-  id: number;
+  id: string;
   userId: number;
   title: string;
   content: string;
@@ -38,4 +38,16 @@ export type DynamoDBParams = {
 export type GetAllResponse = {
   items: ArticleType[];
   lastEvaluatedKey?: { id: number };
+};
+
+export type ResponseType = {
+  message: string;
+  status?: boolean;
+  statusCode?: number;
+};
+export type ErrorType = ResponseType & {
+  errors: any[];
+};
+export type SuccessType = ResponseType & {
+  data: any;
 };

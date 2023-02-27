@@ -6,6 +6,7 @@ This is an API for a blog CRUD application.
 
 - Clone the repository
 - Update environment variables
+- Load database (Create table & load initial contents.)
 
 ```bash
 nvm use 18
@@ -19,6 +20,12 @@ or via docker,
 docker build -t blogapi .
 docker run -p 4000:4000 -d blogapi
 ```
+
+or
+
+```sh
+docker-compose up
+``
 
 ## Tools Used
 
@@ -86,8 +93,8 @@ GSI2 Partition Key: category (String), Sort Key: createdAt (Number)
 
 It should show the following implementation:
 
-- Run in multi thread of CPU.
-- Dockerize the api such that it can be run in services like fargate or kubernetes
+- ~~Run in multi thread of CPU.~~
+- ~~Dockerize the api such that it can be run in services like fargate or kubernetes~~
 - API should have unit tests
 - Caching and cache invalidation using Redis.
 - Implement Github oAuth.
@@ -103,3 +110,4 @@ It should show the following implementation:
 - Notes:
   - Should share code in github with proper commits history.
   - Should have a readme.md file with instruction to run in other computer.
+```

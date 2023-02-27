@@ -2,7 +2,6 @@ const queryString = require("node:querystring");
 import axios from "axios";
 const jwt = require("jsonwebtoken");
 
-import cache from "express-redis-cache";
 import { marshall, unmarshall } from "@aws-sdk/util-dynamodb";
 import {
   DynamoDBClient,

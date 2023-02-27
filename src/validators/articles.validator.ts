@@ -23,6 +23,8 @@ export const articleUpdateSchema = z.object({
 
 export const articleIdSchema = z.object({
   params: z.object({
-    id: z.string("Article ID must be a number or a string."),
+    id: z.string({
+      required_error: "Article ID must be a number or a string.",
+    }),
   }),
 });

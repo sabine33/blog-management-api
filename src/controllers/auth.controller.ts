@@ -1,4 +1,3 @@
-import { Request, Response, NextFunction } from "express";
 import {
   createGithubLoginQueryString,
   getGithubUserProfile,
@@ -9,20 +8,16 @@ import uuid4 from "uuid4";
 const jwt = require("jsonwebtoken");
 
 class AuthController {
-  loginWithGithub = async (req: Request, res: Response, next: NextFunction) => {
+  loginWithGithub = async (req, res, next) => {
     const githubRedirectionURL = createGithubLoginQueryString();
     res.redirect(githubRedirectionURL);
   };
-  getUserProfile = async (req: Request, res: Response, next: NextFunction) => {
+  getUserProfile = async (req, res, next) => {
     const user = req.user;
     return res.success({ data: user });
   };
 
-  onGithubLoginSuccess = async (
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ) => {
+  onGithubLoginSuccess = async (req, res, next) => {
     let { code } = req.query;
     let accessToken = await getAccessTokenFromCode(code);
     const jwtToken = generateJWTToken(accessToken);

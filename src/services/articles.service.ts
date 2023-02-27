@@ -30,15 +30,15 @@ class ArticleService {
     id,
     article,
   }: {
-    id: number;
+    id: string;
     article: ArticleType;
-  }): Promise<ArticleType[]> => {
+  }): Promise<ArticleType> => {
     return this.repository.updateById(id, article);
   };
-  deleteById = (id: number): Promise<ArticleType> => {
+  deleteById = (id: string): Promise<void> => {
     return this.repository.deleteById(id);
   };
-  add = (article: ArticleType): Promise<ArticleType[]> => {
+  add = (article: ArticleType): Promise<ArticleType> => {
     return this.repository.add(article);
   };
 }
