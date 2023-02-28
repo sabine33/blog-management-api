@@ -1,12 +1,12 @@
 import bodyParser from "body-parser";
-import express, { Request } from "express";
+import express from "express";
 import cors from "cors";
 import routes from "@/routes";
 import config from "@/config";
 require("express-async-errors");
 import { errorHandler } from "./error.loader";
 
-export default ({ app }: { app: express.Application }) => {
+export default ({ app }) => {
   app.get("/healthcheck", (req, res) => {
     res.status(200).json({ status: true });
   });

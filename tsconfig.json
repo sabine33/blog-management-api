@@ -3,7 +3,7 @@
     "rootDir": ".",
     "target": "es2017",
     "jsx": "react",
-    "lib": ["es2017", "esnext.asynciterable", "DOM"],
+    "lib": ["es2017", "esnext.asynciterable"],
     "typeRoots": ["./node_modules/@types", "./src/types"],
     "allowSyntheticDefaultImports": true,
     "skipLibCheck": true,
@@ -30,5 +30,5 @@
     ]
   },
   "include": ["./src/**/*"],
-  "exclude": ["node_modules/src/tests", "node_modules"]
+  "exclude": ["node_modules/src/testsrc/tests", "node_modules"]
 }
