@@ -1,0 +1,133 @@
+{
+	"info": {
+		"_postman_id": "a88ba025-6282-4a5e-926d-f6fa240eeb90",
+		"name": "Blog API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "24278150"
+	},
+	"item": [
+		{
+			"name": "Hello Route",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{API_URL}}",
+					"host": [
+						"{{API_URL}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Creates new article",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "Get list of articles",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "Get a particular article.",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "Get a particular article by author.",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{API_URL}}/articles/author/3",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"articles",
+						"author",
+						"3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get articles by category",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{API_URL}}/articles?category=World",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"articles"
+					],
+					"query": [
+						{
+							"key": "category",
+							"value": "World"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Deletes existing article",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "Update existing article",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\n            \"title\": \"Hello World Updated 100\",\n            \"content\": \"Hello World details 100.\",\n            \"authorId\": 1\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{API_URL}}/articles/100",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"articles",
+						"100"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Authenticate using github",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		}
+	]
+}

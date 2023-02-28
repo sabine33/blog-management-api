@@ -1,9 +1,11 @@
+import { CustomError } from "@/error";
 import { IArticleService } from "@/interfaces";
-import redisClient from "@/loaders/redis.loader";
 import { invalidateCache, storeToCache } from "@/middlewares/redis.middleware";
-import articlesService from "@/services/articles.service";
+import dynamoRepository from "@/repositories/article.repository";
+import ArticleService from "@/services/articles.service";
+
 class ArticlesController {
-  private articlesService;
+  private articlesService: IArticleService;
   constructor(articlesService) {
     this.articlesService = articlesService;
   }
@@ -19,27 +21,31 @@ class ArticlesController {
         data: allArticles,
       });
     } catch (ex) {
-      throw new Error(ex);
+      throw new CustomError({
+        message: "Unable to fetch articles:" + ex.message,
+        status: false,
+        statusCode: 403,
+      });
     }
   };
 
   getById = async (req, res) => {
-    try {
-      let { id } = req.params;
-      let article = await this.articlesService.getById({ id });
+    let { id } = req.params;
+    let article = await this.articlesService.getById({ id });
 
-      await storeToCache(req.originalUrl || req.url, article);
+    await storeToCache(req.originalUrl || req.url, article);
 
-      if (!article) {
-        throw new Error("Article with given ID not found.");
-      }
-      res.success({
-        message: "Particular article loaded successfully.",
-        data: article,
+    if (!article) {
+      throw new CustomError({
+        message: "Article with given ID not found.",
+        statusCode: 404,
+        status: false,
       });
-    } catch (ex) {
-      throw new Error(ex);
     }
+    res.success({
+      message: "Particular article loaded successfully.",
+      data: article,
+    });
   };
   getByAuthor = async (req, res) => {
     try {
@@ -81,29 +87,32 @@ class ArticlesController {
         id,
         article,
       });
+      invalidateCache(req.originalUrl || req.url);
 
       //invalidate cache on update
-
       res.success({
         message: "Articles updated successfully.",
         data: updatedArticle,
       });
     } catch (ex) {
-      throw new Error(ex);
+      throw new CustomError({
+        message: "Unable to update article:" + ex.message,
+        status: false,
+        statusCode: 403,
+      });
     }
   };
   deleteArticle = async (req, res) => {
     let { id } = req.params;
-    try {
-      let article = await this.articlesService.deleteById(id);
 
-      res.success({
-        message: "Articles deleted successfully.",
-        data: article,
-      });
-    } catch (ex) {
-      throw new Error(ex);
-    }
+    let article = await this.articlesService.deleteById(id);
+    invalidateCache(req.originalUrl || req.url);
+
+    res.success({
+      message: "Articles deleted successfully.",
+      data: id,
+      statusCode: 200,
+    });
   };
 
   createArticle = async (req, res, next) => {
@@ -121,10 +130,13 @@ class ArticlesController {
         status: true,
       });
     } catch (ex) {
-      console.log(ex);
-      throw new Error(ex);
+      throw new CustomError({
+        message: "Unable to create article:" + ex.message,
+        status: false,
+        statusCode: 403,
+      });
     }
   };
 }
 
-export default new ArticlesController(articlesService);
+export default new ArticlesController(new ArticleService(dynamoRepository));

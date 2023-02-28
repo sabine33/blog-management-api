@@ -1,10 +1,9 @@
 import { IArticleService, IArticleRepository } from "@/interfaces";
-import dynamoRepository from "@/repositories/article.repository";
 import { ArticleType } from "@/types";
 
-class ArticleService {
+export default class ArticleService implements IArticleService {
   private repository: IArticleRepository;
-  constructor(repository) {
+  constructor(repository: IArticleRepository) {
     this.repository = repository;
   }
 
@@ -26,20 +25,28 @@ class ArticleService {
     return this.repository.getByCategory(category);
   };
 
-  updateById = ({
+  updateById({
     id,
     article,
   }: {
     id: string;
-    article: ArticleType;
-  }): Promise<ArticleType> => {
+    article: Pick<
+      ArticleType,
+      | "title"
+      | "content"
+      | "thumbnailUrl"
+      | "updatedAt"
+      | "status"
+      | "isFeatured"
+      | "category"
+    >;
+  }): Promise<ArticleType> {
     return this.repository.updateById(id, article);
-  };
-  deleteById = (id: string): Promise<void> => {
+  }
+  deleteById = (id: string): Promise<boolean> => {
     return this.repository.deleteById(id);
   };
   add = (article: ArticleType): Promise<ArticleType> => {
     return this.repository.add(article);
   };
 }
-export default new ArticleService(dynamoRepository);

@@ -6,7 +6,7 @@ dotenv.config();
 import customExpress from "./customExpress";
 const app = express();
 // const numWorkers = require("os").cpus().length;
-const WORKER_COUNT = 2;
+const WORKER_COUNT = 1;
 const customExpressResponse = Object.create(app.response, customExpress);
 app.response = Object.create(customExpressResponse);
 

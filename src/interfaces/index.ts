@@ -14,15 +14,26 @@ export interface IArticleService {
   listAllArticles(): Promise<ArticleType[]>;
   getById({ id }: { id: string }): Promise<ArticleType>;
   getByAuthor({ userId }: { userId: number }): Promise<ArticleType[]>;
+  getByCategory({ category }: { category: string }): Promise<ArticleType[]>;
+
   updateById({
     id,
     article,
   }: {
     id: string;
-    article: ArticleType;
-  }): Promise<ArticleType[]>;
-  deleteById(id: string): Promise<ArticleType>;
-  add(article: ArticleType): Promise<ArticleType[]>;
+    article: Pick<
+      ArticleType,
+      | "title"
+      | "content"
+      | "thumbnailUrl"
+      | "updatedAt"
+      | "status"
+      | "isFeatured"
+      | "category"
+    >;
+  }): Promise<ArticleType>;
+  deleteById(id: string): Promise<boolean>;
+  add(article: ArticleType): Promise<ArticleType>;
 }
 export interface IRepository {
   getAll(): Promise<ArticleType[]>;
@@ -41,7 +52,7 @@ export interface IRepository {
       | "category"
     >
   ): Promise<ArticleType>;
-  deleteById(id: string): Promise<void>;
+  deleteById(id: string): Promise<boolean>;
   getByKey(key: keyof ArticleType, value: any): Promise<ArticleType[]>;
 }
 export interface IArticleRepository extends IRepository {

@@ -15,14 +15,9 @@ export default () => {
   router.get(
     "/author/:id",
     validate(articleIdSchema),
-    isAuthenticated,
     articlesController.getByAuthor
   );
-  router.get(
-    "/category/:category",
-    isAuthenticated,
-    articlesController.getByCategory
-  );
+  router.get("/category/:category", articlesController.getByCategory);
   router.put(
     "/:id",
     validate(articleIdSchema),

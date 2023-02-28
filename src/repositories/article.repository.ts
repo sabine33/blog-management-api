@@ -1,4 +1,5 @@
 import { ARTICLES_TABLE_NAME } from "@/constants";
+import { CustomError } from "@/error";
 import { dynamoItemsToJson } from "@/helpers";
 import { IArticleRepository } from "@/interfaces";
 import dynamoClient from "@/loaders/dynamodb.loader";
@@ -108,15 +109,16 @@ class ArticleRepository implements IArticleRepository {
     const response = await dynamoClient.send(command);
     return unmarshall(response.Attributes!) as ArticleType;
   }
-  async deleteById(id: string): Promise<void> {
+  async deleteById(id: string): Promise<boolean> {
     try {
       const command = new DeleteItemCommand({
         TableName: ARTICLES_TABLE_NAME,
         Key: marshall({ id }),
       });
       await dynamoClient.send(command);
-    } catch (error) {
-      throw new Error(`Error deleting articles by id: ${error}`);
+      return true;
+    } catch (ex) {
+      return false;
     }
   }
   async getByKey(

@@ -1,6 +1,6 @@
-import { ResponseType } from "@/types";
 import express from "express";
-import { SuccessType } from "..";
+import { ErrorType, SuccessType } from "../../types/index";
+import { SuccessResponse, ErrorResponse } from "../../types/express/index";
 
 declare global {
   namespace Express {
@@ -14,6 +14,3 @@ declare global {
     }
   }
 }
-/**
- * Success response
- */

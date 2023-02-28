@@ -1,7 +1,6 @@
-import { articles as articlesList } from "@/constants/articles";
 import { IArticleRepository } from "@/interfaces";
 import { ArticleType, GetAllResponse } from "@/types";
-
+import { articles as articlesList } from "../constants/articles";
 let articles = Object.assign(articlesList);
 /**
  * Local repository
@@ -41,8 +40,7 @@ class LocalArticleRepository implements IArticleRepository {
       (article: ArticleType) => article[key] == value
     );
     return new Promise((resolve, reject) => {
-      if (!articlesList || articlesList.length < 1)
-        return reject("No articles found with given key.");
+      if (!articlesList || articlesList.length < 1) return resolve([]);
       return resolve(articlesList);
     });
   }
@@ -50,7 +48,7 @@ class LocalArticleRepository implements IArticleRepository {
     return this.getByKey("category", category);
   }
 
-  deleteById(id: string): Promise<void> {
+  deleteById(id: string): Promise<boolean> {
     return new Promise((resolve, reject) => {
       let index = articles.findIndex(
         (article: ArticleType) => article.id == id
@@ -61,7 +59,7 @@ class LocalArticleRepository implements IArticleRepository {
       if (!index || index < 0) {
         reject("No articles found.");
       }
-      resolve(null);
+      resolve(true);
     });
   }
   getAll = async (): Promise<ArticleType[]> => {
