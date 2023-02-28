@@ -2,6 +2,10 @@
 
 This is an API for a blog CRUD application.
 
+### API Docs
+
+`http://127.0.0.1:4000/docs/#/Articles/post_articles`
+
 ## How to run
 
 - Clone the repository
@@ -95,12 +99,12 @@ It should show the following implementation:
 
 - ~~Run in multi thread of CPU.~~
 - ~~Dockerize the api such that it can be run in services like fargate or kubernetes~~
-- API should have unit tests
+- ~~API should have unit tests~~
 - ~~Caching and cache invalidation using Redis.~~
 - ~~Implement Github oAuth.~~
 - ~~Use local dynamodb.~~
 - ~~Use ES6 and async await.~~
-- Share postman collection
+- ~~Share postman collection~~
 - Should handle errors like network error, etc
 - ~~Implement gsi or lsi while listing all articles~~
 - Create frontend using React with own design

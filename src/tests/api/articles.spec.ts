@@ -1,11 +1,11 @@
 import request from "supertest";
-import config from "../../src/config";
-import app from "../../src/app";
-import { ArticleType } from "../../src/types";
+import config from "../../config";
+import app from "../../app";
+import { ArticleType } from "../../types";
 import { faker } from "@faker-js/faker";
 
 let AUTH_TOKEN =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2Nlc3NUb2tlbiI6Imdob19NZTd2Q2FZcHgxSGZ1QzM4ZldadG5vek1Gb1B4MEswcWRqc2ciLCJpYXQiOjE2Nzc1MTgwNTgsImV4cCI6MTY3NzUyODg1OH0.fMYzOHdyP6PJg0aygowH-SZkf0hZuhL23VTsXi4Jwpw";
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2Nlc3NUb2tlbiI6Imdob19hZ0J5UUFUdjJZQWNwVFgySnpyYlFJczQ4TUdGSGwwbnVUNmIiLCJpYXQiOjE2Nzc1NTA4MjAsImV4cCI6MTY3NzU2MTYyMH0.mk148X6Y4fNxQq84WAOXTqBWolKAQ_G_EBGu0Su9d-A";
 
 describe("/articles", () => {
   let createdArticle;

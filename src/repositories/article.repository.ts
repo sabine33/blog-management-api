@@ -109,16 +109,16 @@ class ArticleRepository implements IArticleRepository {
     const response = await dynamoClient.send(command);
     return unmarshall(response.Attributes!) as ArticleType;
   }
-  async deleteById(id: string): Promise<void> {
+  async deleteById(id: string): Promise<boolean> {
     try {
       const command = new DeleteItemCommand({
         TableName: ARTICLES_TABLE_NAME,
         Key: marshall({ id }),
       });
       await dynamoClient.send(command);
-      return;
+      return true;
     } catch (ex) {
-      return null;
+      return false;
     }
   }
   async getByKey(

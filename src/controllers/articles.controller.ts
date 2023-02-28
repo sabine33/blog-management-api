@@ -1,10 +1,11 @@
 import { CustomError } from "@/error";
 import { IArticleService } from "@/interfaces";
-import redisClient from "@/loaders/redis.loader";
 import { invalidateCache, storeToCache } from "@/middlewares/redis.middleware";
-import articlesService from "@/services/articles.service";
+import dynamoRepository from "@/repositories/article.repository";
+import ArticleService from "@/services/articles.service";
+
 class ArticlesController {
-  private articlesService;
+  private articlesService: IArticleService;
   constructor(articlesService) {
     this.articlesService = articlesService;
   }
@@ -20,7 +21,11 @@ class ArticlesController {
         data: allArticles,
       });
     } catch (ex) {
-      throw new Error(ex);
+      throw new CustomError({
+        message: "Unable to fetch articles:" + ex.message,
+        status: false,
+        statusCode: 403,
+      });
     }
   };
 
@@ -82,8 +87,7 @@ class ArticlesController {
         id,
         article,
       });
-
-      console.log(updatedArticle);
+      invalidateCache(req.originalUrl || req.url);
 
       //invalidate cache on update
       res.success({
@@ -102,6 +106,7 @@ class ArticlesController {
     let { id } = req.params;
 
     let article = await this.articlesService.deleteById(id);
+    invalidateCache(req.originalUrl || req.url);
 
     res.success({
       message: "Articles deleted successfully.",
@@ -125,10 +130,13 @@ class ArticlesController {
         status: true,
       });
     } catch (ex) {
-      console.log(ex);
-      throw new Error(ex);
+      throw new CustomError({
+        message: "Unable to create article:" + ex.message,
+        status: false,
+        statusCode: 403,
+      });
     }
   };
 }
 
-export default new ArticlesController(articlesService);
+export default new ArticlesController(new ArticleService(dynamoRepository));

@@ -1,5 +1,5 @@
 import request from "supertest";
-import config from "../../src/config";
+import config from "../../config";
 
 describe("GET /", () => {
   it("Returns success message on healthcheck route", async () => {

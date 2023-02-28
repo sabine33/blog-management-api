@@ -1,7 +1,7 @@
 {
   "openapi": "3.0.0",
   "info": {
-    "title": "Articles API",
+    "title": "Blog API",
     "description": "API for managing articles",
     "version": "1.0.0"
   },
@@ -12,10 +12,26 @@
     }
   ],
   "paths": {
+    "/": {
+      "get": {
+        "summary": "Healthcheck route",
+        "tags": ["Misc"],
+        "description": "Checking whether server is live or not.",
+        "responses": {
+          "200": {
+            "description": "Healthcheck successful."
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
     "/articles": {
       "get": {
         "summary": "Get all articles",
         "description": "Retrieve a list of all articles",
+        "tags": ["Articles"],
         "responses": {
           "200": {
             "description": "List of articles",
@@ -38,6 +54,8 @@
       "post": {
         "summary": "Create new article",
         "description": "Create a new article",
+        "tags": ["Articles"],
+
         "requestBody": {
           "description": "Article object to be created",
           "required": true,
@@ -81,6 +99,7 @@
       "get": {
         "summary": "Get article by ID",
         "description": "Retrieve an article by ID",
+        "tags": ["Articles"],
         "parameters": [
           {
             "name": "id",
@@ -126,6 +145,7 @@
       "put": {
         "summary": "Update article by ID",
         "description": "Update an article by ID",
+        "tags": ["Articles"],
         "parameters": [
           {
             "name": "id",
@@ -182,6 +202,7 @@
       "delete": {
         "summary": "Delete article by ID",
         "description": "Delete an article by ID",
+        "tags": ["Articles"],
         "parameters": [
           {
             "name": "id",
@@ -222,6 +243,7 @@
       "get": {
         "summary": "Get articles by author ID",
         "description": "Retrieve a list of articles by author ID",
+        "tags": ["Articles"],
         "parameters": [
           {
             "name": "id",
@@ -268,6 +290,7 @@
       "get": {
         "summary": "Get articles by category",
         "description": "Retrieve a list of articles by category",
+        "tags": ["Articles"],
         "parameters": [
           {
             "name": "category",
@@ -363,5 +386,14 @@
         ]
       }
     }
-  }
+  },
+  "tags": [
+    {
+      "name": "Misc"
+    },
+    {
+      "name": "Articles",
+      "description": "API endpoints for articles"
+    }
+  ]
 }
