@@ -59,7 +59,11 @@ class ArticlesController {
         data: articles,
       });
     } catch (ex) {
-      throw new Error(ex);
+      throw new CustomError({
+        message: "Unable to load article:" + ex.message,
+        status: false,
+        statusCode: 403,
+      });
     }
   };
   getByCategory = async (req, res) => {
@@ -76,7 +80,11 @@ class ArticlesController {
         data: articles,
       });
     } catch (ex) {
-      throw new Error(ex);
+      throw new CustomError({
+        message: "Unable to load articles:" + ex.message,
+        status: false,
+        statusCode: 403,
+      });
     }
   };
   updateArticle = async (req, res) => {
@@ -139,4 +147,4 @@ class ArticlesController {
   };
 }
 
-export default new ArticlesController(new ArticleService(dynamoRepository));
+export default ArticlesController;

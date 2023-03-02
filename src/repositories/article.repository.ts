@@ -24,6 +24,10 @@ import { marshall, unmarshall } from "@aws-sdk/util-dynamodb";
 import uuid4 from "uuid4";
 
 class ArticleRepository implements IArticleRepository {
+  /**
+   * Lists all articles.
+   * @returns
+   */
   async getAll(): Promise<ArticleType[]> {
     try {
       const params = {
@@ -35,6 +39,11 @@ class ArticleRepository implements IArticleRepository {
       throw new Error("Unable to fetch articles.");
     }
   }
+  /**
+   * Gets articles by ID
+   * @param id
+   * @returns
+   */
   async getById(id: string): Promise<ArticleType> {
     const command = new GetItemCommand({
       TableName: ARTICLES_TABLE_NAME,
@@ -47,6 +56,11 @@ class ArticleRepository implements IArticleRepository {
       ? (unmarshall(response.Item) as ArticleType)
       : undefined;
   }
+  /**
+   * Adding new article to database.
+   * @param article
+   * @returns
+   */
   async add(
     article: Omit<ArticleType, "id" | "createdAt" | "updatedAt" | "deletedAt">
   ): Promise<ArticleType> {
@@ -65,6 +79,12 @@ class ArticleRepository implements IArticleRepository {
     await dynamoClient.send(command);
     return item;
   }
+  /**
+   * Update article by specific ID
+   * @param id
+   * @param article
+   * @returns
+   */
   async updateById(
     id: string,
     article: Pick<
@@ -109,6 +129,11 @@ class ArticleRepository implements IArticleRepository {
     const response = await dynamoClient.send(command);
     return unmarshall(response.Attributes!) as ArticleType;
   }
+  /**
+   * Delete article by ID.
+   * @param id
+   * @returns
+   */
   async deleteById(id: string): Promise<boolean> {
     try {
       const command = new DeleteItemCommand({
@@ -121,6 +146,15 @@ class ArticleRepository implements IArticleRepository {
       return false;
     }
   }
+  /**
+   * Gets article by specific key (userId in this case.)
+   * @param key
+   * @param value
+   * @param limit
+   * @param skip
+   * @returns
+   */
+  //Should be refactored
   async getByKey(
     key: keyof ArticleType,
     value: any,
@@ -146,6 +180,12 @@ class ArticleRepository implements IArticleRepository {
       return [];
     }
   }
+  /**
+   * Gets article by category
+   * @param category
+   * @param limit
+   * @returns
+   */
   async getByCategory(
     category: string,
     limit: number = 10
@@ -165,7 +205,8 @@ class ArticleRepository implements IArticleRepository {
       const { Items } = await dynamoClient.send(command);
       return dynamoItemsToJson<ArticleType>(Items);
     } catch (ex) {
-      console.error(ex);
+      console.log(ex);
+      return [];
     }
   }
 }

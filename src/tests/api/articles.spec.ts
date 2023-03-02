@@ -117,7 +117,6 @@ describe("/articles", () => {
         .put(`/articles/${createdArticle.id}`)
         .send(updatedArticle)
         .set("Authorization", `Bearer ${AUTH_TOKEN}`);
-      console.log(response.body);
       expect(response.status).toBe(200);
       expect(response.statusCode).toBe(200);
       expect(response.headers["content-type"]).toMatch(/json/);

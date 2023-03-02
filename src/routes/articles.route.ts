@@ -1,7 +1,9 @@
-import articlesController from "@/controllers/articles.controller";
+import ArticlesController from "@/controllers/articles.controller";
 import helloController from "@/controllers/hello.controller";
 import { isAuthenticated } from "@/middlewares/auth.middleware";
 import { validate } from "@/middlewares/validation.middleware";
+import articleRepository from "@/repositories/article.repository";
+import ArticleService from "@/services/articles.service";
 import {
   articleSchema,
   articleIdSchema,
@@ -9,6 +11,9 @@ import {
 import { Request, Response, Router } from "express";
 
 const router = Router();
+const articlesController = new ArticlesController(
+  new ArticleService(articleRepository)
+);
 export default () => {
   router.get("/", articlesController.index);
   router.get("/:id", validate(articleIdSchema), articlesController.getById);
