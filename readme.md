@@ -29,7 +29,7 @@ or
 
 ```sh
 docker-compose up
-``
+```
 
 ## Tools Used
 
@@ -89,7 +89,7 @@ GSI2 Partition Key: category (String), Sort Key: createdAt (Number)
 
 ## Assignment
 
-#### Create a Restful API for CRUD application using expressJs framework and ReactJS with hooks that has following features.
+Create a Restful API for CRUD application using expressJs framework and ReactJS with hooks that has following features.
 
 - Logged in users can create, delete and update their article.
 
@@ -105,13 +105,12 @@ It should show the following implementation:
 - ~~Use local dynamodb.~~
 - ~~Use ES6 and async await.~~
 - ~~Share postman collection~~
-- Should handle errors like network error, etc
+- ~~Should handle errors like network error, etc~~
 - ~~Implement gsi or lsi while listing all articles~~
 - Create frontend using React with own design
 - ~~Use redux-toolkit and redux-saga~~
-- Write unit tests for utils
+- ~~Write unit tests for utils~~
 
 - Notes:
   - ~~Should share code in github with proper commits history.~~
   - ~~Should have a readme.md file with instruction to run in other computer.~~
-```
