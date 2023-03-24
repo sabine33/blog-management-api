@@ -1,9 +1,10 @@
 import { CustomError } from "@/error";
 import { IArticleService } from "@/interfaces";
 import { invalidateCache, storeToCache } from "@/middlewares/redis.middleware";
-import dynamoRepository from "@/repositories/article.repository";
-import ArticleService from "@/services/articles.service";
 
+export function sayHello() {
+  console.log("SayeHello");
+}
 class ArticlesController {
   private articlesService: IArticleService;
   constructor(articlesService) {
@@ -15,6 +16,8 @@ class ArticlesController {
       let allArticles = await this.articlesService.listAllArticles();
 
       await storeToCache(req.originalUrl || req.url, allArticles);
+
+      sayHello();
 
       res.success({
         message: "List of articles loaded successfully.",
@@ -33,7 +36,7 @@ class ArticlesController {
     let { id } = req.params;
     let article = await this.articlesService.getById({ id });
 
-    await storeToCache(req.originalUrl || req.url, article);
+    // await storeToCache(req.originalUrl || req.url, article);
 
     if (!article) {
       throw new CustomError({
