@@ -211,4 +211,4 @@ class ArticleRepository implements IArticleRepository {
   }
 }
 
-export default new ArticleRepository();
+export default ArticleRepository;
